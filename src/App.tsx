@@ -140,6 +140,10 @@ function App() {
 
     hasCelebratedRef.current = true;
 
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+      navigator.vibrate([30, 40, 120]);
+    }
+
     confetti({
       particleCount: 150,
       spread: 80,
@@ -148,13 +152,16 @@ function App() {
   }, [hasWon]);
 
   function toggleSquare(indexToToggle: number) {
-    if (hasWon || squares[indexToToggle].prompt.verb === "FREE") {
+    const square = squares[indexToToggle];
+    if (!square || hasWon || square.prompt.verb === "FREE") {
       return;
     }
 
     setSquares((prevSquares) =>
-      prevSquares.map((square, index) =>
-        index === indexToToggle ? { ...square, marked: !square.marked } : square,
+      prevSquares.map((currentSquare, index) =>
+        index === indexToToggle
+          ? { ...currentSquare, marked: !currentSquare.marked }
+          : currentSquare,
       ),
     );
   }
@@ -194,9 +201,11 @@ function App() {
                   square.marked
                     ? "border-notice-accent bg-notice-accent text-notice-bg font-medium"
                     : "border-notice-border bg-notice-surface text-notice-text/80",
-                  !isFreeSquare && !hasWon && "cursor-pointer hover:border-notice-accent/50 active:scale-95",
+                  !isFreeSquare &&
+                    !hasWon &&
+                    "cursor-pointer hover:border-notice-accent/50 active:scale-95",
                   isFreeSquare && "border-notice-accent/40",
-                  hasWon && !square.marked && "opacity-40",
+                  hasWon && !square.marked && "opacity-60",
                 ]
                   .filter(Boolean)
                   .join(" ");
@@ -206,10 +215,10 @@ function App() {
                     key={`${index}-${square.prompt.text}`}
                     type="button"
                     role="gridcell"
-                    aria-disabled={isFreeSquare || hasWon}
-                    onClick={() => toggleSquare(index)}
+                    disabled={isFreeSquare || hasWon}
                     aria-pressed={square.marked}
                     className={buttonClassName}
+                    onClick={() => toggleSquare(index)}
                   >
                     {isFreeSquare ? (
                       <span className="text-notice-bg font-semibold tracking-wider">FREE</span>
