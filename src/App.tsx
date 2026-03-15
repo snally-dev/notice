@@ -162,31 +162,32 @@ function App() {
   }
 
   return (
-    <main className="bg-notice-bg text-notice-text flex min-h-screen flex-col px-4 py-6 sm:px-6">
-      <div className="flex flex-1 flex-col items-center">
-        <header className="mb-6 flex flex-col items-center text-center">
-          <img src={noticeLogo} alt="Notice" className="mb-2 h-auto w-28 sm:w-32" />
-          <h1 className="text-notice-accent text-2xl font-semibold sm:text-3xl">Notice Outside</h1>
-          <p className="text-notice-accent mt-2 max-w-md text-sm sm:text-base">
+    <main className="bg-notice-bg text-notice-text flex min-h-screen flex-col px-6 py-10 sm:px-8">
+      <div className="mx-auto flex w-full max-w-lg flex-1 flex-col items-center">
+        <header className="mb-12 flex flex-col items-center text-center">
+          <img src={noticeLogo} alt="Notice" className="mb-4 h-auto w-24 opacity-90 sm:w-28" />
+          <h1 className="text-notice-accent text-3xl font-bold tracking-tight sm:text-4xl">
+            Notice Outside
+          </h1>
+          <p className="text-notice-muted mt-3 max-w-xs text-sm leading-relaxed sm:text-base">
             Step outside and notice the little things.
           </p>
         </header>
 
-        <div
-          className="grid w-full max-w-88 grid-cols-3 gap-3 sm:max-w-md sm:gap-4"
-          aria-label="Bingo Grid"
-        >
+        <div className="grid w-full grid-cols-3 gap-3 sm:gap-4" aria-label="Bingo Grid">
           {squares.map((square, index) => {
             const isFreeSquare = square.prompt.verb === "FREE";
 
             const buttonClassName = [
-              "flex aspect-square w-full items-center justify-center rounded-lg border border-4 p-3 text-center text-xs shadow-md transition-all duration-200 ease-in-out sm:p-4 sm:text-sm",
+              "flex aspect-square w-full items-center justify-center rounded-xl border-2 p-3 text-center text-xs shadow-sm transition-all duration-300 ease-out sm:p-4 sm:text-sm",
               square.marked
-                ? "border-notice-accent bg-notice-accent text-white"
-                : "border-white/10 bg-notice-card text-notice-text",
-              !isFreeSquare && !hasWon ? "cursor-pointer hover:scale-[1.02]" : "",
-              isFreeSquare ? "border-notice-accent" : "",
-              hasWon ? "opacity-90" : "",
+                ? "border-notice-accent bg-notice-accent text-notice-bg font-medium"
+                : "border-notice-border bg-notice-surface text-notice-text/80",
+              !isFreeSquare && !hasWon
+                ? "cursor-pointer hover:border-notice-accent/50 active:scale-95"
+                : "",
+              isFreeSquare ? "border-notice-accent/40" : "",
+              hasWon && !square.marked ? "opacity-40" : "",
             ].join(" ");
 
             return (
@@ -199,10 +200,11 @@ function App() {
                 className={buttonClassName}
               >
                 {isFreeSquare ? (
-                  <span className="font-semibold tracking-wide">FREE</span>
+                  <span className="text-notice-bg font-semibold tracking-wider">FREE</span>
                 ) : (
                   <span>
-                    <span className="font-semibold">{square.prompt.verb}</span> {square.prompt.text}
+                    <span className="font-bold opacity-100">{square.prompt.verb}</span>{" "}
+                    <span className="font-normal">{square.prompt.text}</span>
                   </span>
                 )}
               </button>
@@ -210,38 +212,42 @@ function App() {
           })}
         </div>
 
-        <div className="mt-6 text-center" role="status" aria-live="polite">
+        <div className="mt-10 text-center" role="status" aria-live="polite">
           {hasWon ? (
-            <p className="bg-linear-to-r from-indigo-600 via-purple-500 to-pink-500 bg-clip-text text-3xl font-extrabold text-transparent sm:text-4xl">
-              You won in {formatTime(timer)}
-            </p>
+            <div className="animate-in fade-in zoom-in duration-500">
+              <p className="text-notice-accent text-3xl font-bold tracking-tight sm:text-4xl">
+                Bingo!
+              </p>
+              <p className="text-notice-muted mt-1 text-sm">Completed in {formatTime(timer)}</p>
+            </div>
           ) : (
-            <p className="text-notice-accent text-sm">Time: {formatTime(timer)}</p>
+            <p className="text-notice-muted font-mono text-xs tracking-widest uppercase">
+              Time {formatTime(timer)}
+            </p>
           )}
         </div>
 
-        <div className="mt-4">
+        <div className="mt-8">
           <button
             type="button"
             onClick={restartGame}
-            className="bg-notice-accent text-notice-bg rounded-lg px-4 py-2 text-sm font-medium transition-opacity hover:opacity-90"
+            className="border-notice-accent text-notice-accent hover:bg-notice-accent hover:text-notice-bg rounded-full border px-8 py-2.5 text-sm font-medium transition-all duration-200"
           >
             New board
           </button>
         </div>
       </div>
 
-      <footer className="text-notice-accent pt-6 text-center text-xs">
+      <footer className="text-notice-muted mt-auto pt-12 text-center text-[10px] tracking-wide uppercase opacity-60">
         Created for the WebDev Challenge:{" "}
         <a
           href="https://codetv.dev/hackathon/wdc-s3e1-playful-apps"
           target="_blank"
           rel="noopener noreferrer"
-          className="underline"
+          className="hover:text-notice-accent underline underline-offset-4 transition-colors"
         >
           S3E1 Playful Apps
         </a>
-        .
       </footer>
     </main>
   );
