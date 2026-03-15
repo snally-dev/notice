@@ -7,15 +7,15 @@
       ["value-builtin", "value-external"],
       "value-internal",
       ["value-parent", "value-sibling", "value-index"],
-      "unknown",
-    ],
+      "unknown"
+    ]
   },
 
   "sortTailwindcss": {
-    "functions": ["clsx", "cn"],
+    "functions": ["clsx", "cn"]
   },
 
   "sortPackageJson": {
-    "sortScripts": true,
-  },
+    "sortScripts": true
+  }
 }

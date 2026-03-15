@@ -19,6 +19,8 @@ const WINNING_LINES = [
   [2, 4, 6],
 ] as const;
 
+const WIN_VIBRATION_PATTERN = [30, 40, 120] as const;
+
 type Prompt = {
   verb: "Find" | "Hear" | "Touch" | "Notice" | "See" | "Spot" | "Feel" | "FREE";
   text: string;
@@ -126,7 +128,11 @@ function App() {
     hasCelebratedRef.current = true;
 
     if (typeof navigator !== "undefined" && "vibrate" in navigator) {
-      navigator.vibrate([30, 40, 120]);
+      try {
+        navigator.vibrate([...WIN_VIBRATION_PATTERN]);
+      } catch {
+        // Ignore vibration errors
+      }
     }
 
     confetti({
@@ -158,16 +164,26 @@ function App() {
   }
 
   async function handleShare() {
-    if (!navigator.share) return;
+    if (typeof navigator === "undefined" || !navigator.share) return;
+
+    const shareData = {
+      title: "Notice Outside",
+      text: `I just completed a Notice Outside board in ${formatTime(timer)}.`,
+      url: window.location.href,
+    };
+
+    if (navigator.canShare && !navigator.canShare(shareData)) {
+      return;
+    }
 
     try {
-      await navigator.share({
-        title: "Notice Outside",
-        text: `I just completed a Notice Outside board in ${formatTime(timer)}.`,
-        url: window.location.href,
-      });
-    } catch {
-      // user cancelled share
+      await navigator.share(shareData);
+    } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") {
+        // User cancelled share, do nothing
+        return;
+      }
+      // Log or handle other unexpected errors if necessary
     }
   }
 
@@ -214,7 +230,7 @@ function App() {
                     key={`${index}-${square.prompt.text}`}
                     type="button"
                     role="gridcell"
-                    disabled={isFreeSquare || hasWon}
+                    aria-disabled={isFreeSquare || hasWon}
                     aria-pressed={square.marked}
                     className={buttonClassName}
                     onClick={() => toggleSquare(index)}
@@ -248,6 +264,7 @@ function App() {
                   type="button"
                   onClick={handleShare}
                   className="text-notice-accent mt-3 text-sm"
+                  aria-label="Share your Bingo result"
                 >
                   Share ↗
                 </button>
