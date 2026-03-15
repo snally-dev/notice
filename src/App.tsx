@@ -148,6 +148,10 @@ function App() {
   }, [hasWon]);
 
   function toggleSquare(indexToToggle: number) {
+    if (hasWon || squares[indexToToggle].prompt.verb === "FREE") {
+      return;
+    }
+
     setSquares((prevSquares) =>
       prevSquares.map((square, index) =>
         index === indexToToggle ? { ...square, marked: !square.marked } : square,
@@ -174,42 +178,52 @@ function App() {
           </p>
         </header>
 
-        <div className="grid w-full grid-cols-3 gap-3 sm:gap-4" aria-label="Bingo Grid">
-          {squares.map((square, index) => {
-            const isFreeSquare = square.prompt.verb === "FREE";
+        <div
+          className="grid w-full grid-cols-3 gap-3 sm:gap-4"
+          role="grid"
+          aria-label="Bingo Board"
+        >
+          {[0, 1, 2].map((rowIndex) => (
+            <div key={rowIndex} role="row" className="contents">
+              {squares.slice(rowIndex * 3, rowIndex * 3 + 3).map((square, colIndex) => {
+                const index = rowIndex * 3 + colIndex;
+                const isFreeSquare = square.prompt.verb === "FREE";
 
-            const buttonClassName = [
-              "flex aspect-square w-full items-center justify-center rounded-xl border-2 p-3 text-center text-xs shadow-sm transition-all duration-300 ease-out sm:p-4 sm:text-sm",
-              square.marked
-                ? "border-notice-accent bg-notice-accent text-notice-bg font-medium"
-                : "border-notice-border bg-notice-surface text-notice-text/80",
-              !isFreeSquare && !hasWon
-                ? "cursor-pointer hover:border-notice-accent/50 active:scale-95"
-                : "",
-              isFreeSquare ? "border-notice-accent/40" : "",
-              hasWon && !square.marked ? "opacity-40" : "",
-            ].join(" ");
+                const buttonClassName = [
+                  "flex aspect-square w-full items-center justify-center rounded-xl border-2 p-3 text-center text-xs shadow-sm transition-all duration-300 ease-out sm:p-4 sm:text-sm",
+                  square.marked
+                    ? "border-notice-accent bg-notice-accent text-notice-bg font-medium"
+                    : "border-notice-border bg-notice-surface text-notice-text/80",
+                  !isFreeSquare && !hasWon && "cursor-pointer hover:border-notice-accent/50 active:scale-95",
+                  isFreeSquare && "border-notice-accent/40",
+                  hasWon && !square.marked && "opacity-40",
+                ]
+                  .filter(Boolean)
+                  .join(" ");
 
-            return (
-              <button
-                key={`${index}-${square.prompt.text}`}
-                type="button"
-                disabled={isFreeSquare || hasWon}
-                onClick={() => toggleSquare(index)}
-                aria-pressed={square.marked}
-                className={buttonClassName}
-              >
-                {isFreeSquare ? (
-                  <span className="text-notice-bg font-semibold tracking-wider">FREE</span>
-                ) : (
-                  <span>
-                    <span className="font-bold opacity-100">{square.prompt.verb}</span>{" "}
-                    <span className="font-normal">{square.prompt.text}</span>
-                  </span>
-                )}
-              </button>
-            );
-          })}
+                return (
+                  <button
+                    key={`${index}-${square.prompt.text}`}
+                    type="button"
+                    role="gridcell"
+                    aria-disabled={isFreeSquare || hasWon}
+                    onClick={() => toggleSquare(index)}
+                    aria-pressed={square.marked}
+                    className={buttonClassName}
+                  >
+                    {isFreeSquare ? (
+                      <span className="text-notice-bg font-semibold tracking-wider">FREE</span>
+                    ) : (
+                      <span>
+                        <span className="font-bold opacity-100">{square.prompt.verb}</span>{" "}
+                        <span className="font-normal">{square.prompt.text}</span>
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          ))}
         </div>
 
         <div className="mt-10 text-center" role="status" aria-live="polite">
