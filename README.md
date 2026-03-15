@@ -1,12 +1,14 @@
 # Notice
 
-Notice is a small playful web app: a 3×3 outdoor observation board that encourages you to step away from your screen and pay attention to the world around you.
+Notice is a small playful web app: a 3×3 outdoor observation board that encourages you to step away from your screen and pay attention to the world around you. Complete a row, column, or diagonal by noticing things around you.
+
+It turns a quick moment outside into a small game of observation.
 
 ## Why I made this
 
 Notice was built for the [CodeTV](https://codetv.dev/) Web Dev Challenge [Hackathon](https://codetv.dev/hackathon/wdc-s3e1-playful-apps), Season 3 Episode 1.
 
-The prompt was **“Build a playful app.”** I wanted to create something calm, simple, and intentionally designed to be used outside.
+The prompt was **“Build a playful app.”** I wanted to create something calm, simple, and intentionally designed to be used outside. I really enjoyed this challenge and look forward to using the app myself as an excuse to step outside and notice more of the world around me.
 
 ## Design goals
 
@@ -16,12 +18,12 @@ The prompt was **“Build a playful app.”** I wanted to create something calm,
 
 ## AI-assisted development
 
-As part of the challenge, I experimented with Google’s AI development tools.
+The challenge encouraged participants to explore Google’s new AI development tools, and it was a great opportunity to experiment with them during development.
 
-- **[Jules](https://jules.google/)** was used as a coding teammate to review the implementation, identify small improvements, and suggest minor accessibility and code clarity refinements.
-- **[Stitch](https://stitch.withgoogle.com/)** was used to explore layout and spacing ideas and help polish parts of the interface.
+- **[Jules](https://jules.google/)** worked like a coding teammate, helping review the implementation, surface small improvements, and suggest minor accessibility and code clarity refinements.
+- **[Stitch](https://stitch.withgoogle.com/)** was a surprisingly helpful way to explore layout and spacing ideas while polishing parts of the interface.
 
-Only small improvements from these tools were incorporated to keep the app simple and maintainable.
+These tools were genuinely fun to use and made it easy to iterate quickly while still keeping the app simple and maintainable.
 
 ## Features
 
@@ -30,6 +32,8 @@ Only small improvements from these tools were incorporated to keep the app simpl
 - Built-in timer
 - Win detection for rows, columns, and diagonals
 - Confetti celebration on a completed line
+- Subtle haptic feedback on win (Vibration API)
+- Native share support on mobile (Web Share API)
 - Quick restart for a fresh board
 
 ## Tech stack
@@ -76,3 +80,5 @@ Challenge page:
 - Accessibility improvements for input, contrast, and motion
 - Optional score history or personal best tracking
 - Light sound design or haptics for completed squares
+
+In the meantime, I plan to keep using the app as a small reminder to step outside and notice the details around me.
