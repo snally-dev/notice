@@ -172,6 +172,20 @@ function App() {
     hasCelebratedRef.current = false;
   }
 
+  async function handleShare() {
+    if (!navigator.share) return;
+
+    try {
+      await navigator.share({
+        title: "Notice Outside",
+        text: `I just completed a Notice Outside board in ${formatTime(timer)}.`,
+        url: window.location.href,
+      });
+    } catch {
+      // user cancelled share
+    }
+  }
+
   return (
     <main className="bg-notice-bg text-notice-text flex min-h-screen flex-col px-6 py-10 sm:px-8">
       <div className="mx-auto flex w-full max-w-lg flex-1 flex-col items-center">
@@ -241,7 +255,18 @@ function App() {
               <p className="text-notice-accent text-3xl font-bold tracking-tight sm:text-4xl">
                 Bingo!
               </p>
+
               <p className="text-notice-muted mt-1 text-sm">Completed in {formatTime(timer)}</p>
+
+              {typeof navigator !== "undefined" && "share" in navigator && (
+                <button
+                  type="button"
+                  onClick={handleShare}
+                  className="text-notice-accent mt-3 text-sm"
+                >
+                  Share ↗
+                </button>
+              )}
             </div>
           ) : (
             <p className="text-notice-muted font-mono text-xs tracking-widest uppercase">
