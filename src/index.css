@@ -9,6 +9,7 @@
   --color-notice-text: #f2eee8;
   --color-notice-muted: #9c978d;
   --color-notice-border: #2a3136;
+  --color-notice-card: var(--color-notice-surface);
 }
 
 body {

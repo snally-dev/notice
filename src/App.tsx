@@ -1,5 +1,5 @@
 import confetti from "canvas-confetti";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import noticeLogo from "./assets/notice-logo.png";
 
@@ -118,9 +118,9 @@ function formatTime(totalSeconds: number) {
 
 function App() {
   const [squares, setSquares] = useState<BingoSquare[]>(() => createSquares());
-  const [hasWon, setHasWon] = useState(false);
   const [timer, setTimer] = useState(0);
 
+  const hasWon = useMemo(() => checkWin(squares), [squares]);
   const hasCelebratedRef = useRef(false);
 
   useEffect(() => {
@@ -148,22 +148,15 @@ function App() {
   }, [hasWon]);
 
   function toggleSquare(indexToToggle: number) {
-    setSquares((prevSquares) => {
-      const nextSquares = prevSquares.map((square, index) =>
+    setSquares((prevSquares) =>
+      prevSquares.map((square, index) =>
         index === indexToToggle ? { ...square, marked: !square.marked } : square,
-      );
-
-      if (checkWin(nextSquares)) {
-        setHasWon(true);
-      }
-
-      return nextSquares;
-    });
+      ),
+    );
   }
 
   function restartGame() {
     setSquares(createSquares());
-    setHasWon(false);
     setTimer(0);
     hasCelebratedRef.current = false;
   }
@@ -179,7 +172,10 @@ function App() {
           </p>
         </header>
 
-        <div className="grid w-full max-w-88 grid-cols-3 gap-3 sm:max-w-md sm:gap-4">
+        <div
+          className="grid w-full max-w-88 grid-cols-3 gap-3 sm:max-w-md sm:gap-4"
+          aria-label="Bingo Grid"
+        >
           {squares.map((square, index) => {
             const isFreeSquare = square.prompt.verb === "FREE";
 
@@ -195,7 +191,7 @@ function App() {
 
             return (
               <button
-                key={square.prompt.text}
+                key={`${index}-${square.prompt.text}`}
                 type="button"
                 disabled={isFreeSquare || hasWon}
                 onClick={() => toggleSquare(index)}
@@ -214,7 +210,7 @@ function App() {
           })}
         </div>
 
-        <div className="mt-6 text-center">
+        <div className="mt-6 text-center" role="status" aria-live="polite">
           {hasWon ? (
             <p className="bg-linear-to-r from-indigo-600 via-purple-500 to-pink-500 bg-clip-text text-3xl font-extrabold text-transparent sm:text-4xl">
               You won in {formatTime(timer)}
