@@ -4,7 +4,24 @@ Notice is a small playful web app: a 3×3 outdoor observation board that encoura
 
 ## Why I made this
 
-Notice was built for the [CodeTV](https://codetv.dev/) Web Dev Challenge [Hackathon](https://codetv.dev/hackathon/wdc-s3e1-playful-apps), Season 3 Episode 1. The prompt was “Build a playful app,” and I wanted to create something calm, simple, and meant to be used outside.
+Notice was built for the [CodeTV](https://codetv.dev/) Web Dev Challenge [Hackathon](https://codetv.dev/hackathon/wdc-s3e1-playful-apps), Season 3 Episode 1.
+
+The prompt was **“Build a playful app.”** I wanted to create something calm, simple, and intentionally designed to be used outside.
+
+## Design goals
+
+- **Encourage stepping away from screens** — the app is meant to be used outdoors.
+- **Simple and calm interaction** — minimal UI so attention stays on the environment.
+- **Playful but lightweight** — quick to start, quick to restart, no accounts or setup.
+
+## AI-assisted development
+
+As part of the challenge, I experimented with Google’s AI development tools.
+
+- **[Jules](https://jules.google/)** was used as a coding teammate to review the implementation, identify small improvements, and suggest minor accessibility and code clarity refinements.
+- **[Stitch](https://stitch.withgoogle.com/)** was used to explore layout and spacing ideas and help polish parts of the interface.
+
+Only small improvements from these tools were incorporated to keep the app simple and maintainable.
 
 ## Features
 
@@ -42,12 +59,16 @@ npm run dev
 
 ## Challenge context
 
-Built for the CodeTV Web Dev Challenge (Season 3, Episode 1).
+Built for the **CodeTV Web Dev Challenge (Season 3, Episode 1)**.
 
-Prompt: “Build a playful app.”
-Brief: “Build an app to help people reconnect with the world outside their screens.”
+Prompt:
 
-Challenge page: [https://codetv.dev/hackathon/wdc-s3e1-playful-apps](https://codetv.dev/hackathon/wdc-s3e1-playful-apps)
+> “Build a playful app.”
+
+The goal of the challenge was to create something interactive that encourages play and exploration.
+
+Challenge page:
+[https://codetv.dev/hackathon/wdc-s3e1-playful-apps](https://codetv.dev/hackathon/wdc-s3e1-playful-apps)
 
 ## Future improvements
 
